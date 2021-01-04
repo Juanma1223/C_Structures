@@ -30,7 +30,7 @@ void add(struct LinkedList *l,int value){
 	}else{
 		l->head->prevNode = newNode;
 		l->head = newNode;
-	{
+	}
 	//Increase list's length
 	l->length = l->length+1;
 
@@ -77,7 +77,7 @@ void insert(struct LinkedList *l,int pos, int value){
 //Stack and Queue functions
 int pop(struct LinkedList *l){
 
-	if(l->head == NULL){return NULL};
+	if(l->head == NULL){return NULL;}
 	struct Node *head = l->head;
 	int value = head->value;
 	struct Node *next = head->nextNode;
@@ -89,7 +89,7 @@ int pop(struct LinkedList *l){
 
 int dequeue(struct LinkedList *l){
 
-	if(l->head == NULL){return NULL};
+	if(l->head == NULL){return NULL;}
 	int tailValue = l->tail->value;
 	struct Node *prev = l->tail->prevNode;
 	prev->nextNode = NULL;
