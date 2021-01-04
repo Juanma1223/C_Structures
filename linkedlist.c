@@ -4,6 +4,7 @@ struct Node{
 
 	int value;
 	struct Node *nextNode;
+	struct Node *prevNode;
 
 };
 
@@ -11,6 +12,8 @@ struct LinkedList{
 
 	struct Node *head;
 	struct Node *tail;
+	//Keep the length in O(1) complexity
+	int length;
 
 };
 
@@ -19,7 +22,17 @@ void add(struct LinkedList *l,int value){
 	struct Node *newNode = malloc(sizeof *newNode);
 	newNode->value = value;
 	newNode->nextNode = l->head;
-	l->head = newNode;
+	if(l->head == NULL){
+		//In case our list has only one node
+		l->tail = newNode;
+		l->length = 0;
+		l->head = newNode;
+	}else{
+		l->head->prevNode = newNode;
+		l->head = newNode;
+	{
+	//Increase list's length
+	l->length = l->length+1;
 
 }
 
@@ -35,17 +48,16 @@ void  printList(struct LinkedList *l){
 
 }
 
-//Insertar en una posicion determinada de la lista
+//Insert a value in a certain position
 void insert(struct LinkedList *l,int pos, int value){
 
 
 	struct Node *newNode = malloc(sizeof *newNode);
 	newNode->value = value;
-	//Contador para llegar a la posicion
+	//Keep track of the position
 	struct Node *currentNode = l->head;
-	//Recorremos la lista hasta llegar a la posicion deseada
 	int i = 0;
-	//Tenemos un puntero al nodo anterior para enlazar el nodo que estamos insertando
+	//Keep a pointer for the previous node to link the new one
 	struct Node *prev;
 	while(i < pos){
 
@@ -54,20 +66,37 @@ void insert(struct LinkedList *l,int pos, int value){
 		i = i + 1;
 
 	}
-	//Modificamos la estructura
+	//Insert the node inbetween
 	prev->nextNode = newNode;
+	newNode->prevNode = prev;
 	newNode->nextNode = currentNode;
+	l->length = l->length+1;
 
 }
 
-//Funcionalidades de pila y cola
+//Stack and Queue functions
 int pop(struct LinkedList *l){
 
+	if(l->head == NULL){return NULL};
 	struct Node *head = l->head;
 	int value = head->value;
 	struct Node *next = head->nextNode;
 	l->head = next;
+	l->length = l->length-1;
 	return value;
 
 }
+
+int dequeue(struct LinkedList *l){
+
+	if(l->head == NULL){return NULL};
+	int tailValue = l->tail->value;
+	struct Node *prev = l->tail->prevNode;
+	prev->nextNode = NULL;
+	l->tail = prev;
+	return tailValue;
+
+}
+
+
 
